@@ -11,7 +11,7 @@ app.use(cors());
 //password; 4JDBGzDJhTiinMlJ
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.coxxz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -63,6 +63,22 @@ app.post('/post-a-job', async(req,res) => {
 app.get("/all-jobs", async(req, res) => {
   const jobs = await jobsCollection.find().toArray();
   res.send(jobs);
+})
+
+//get jobs by email
+app.get("/myJobs/:email", async(req,res) => {
+  // console.log(req.params.email);
+  
+  const jobs = await jobsCollection.find({postedBy: req.params.email}).toArray();
+  res.send(jobs);
+})
+
+//delete-job
+app.delete("/job/:id", async(req, res) => {
+  const id = req.params.id;
+  const filter =  {_id: new ObjectId(id)}
+  const result = await jobsCollection.deleteOne(filter);
+  res.send(result);
 })
 
 app.get('/', (req, res) => {
