@@ -55,6 +55,14 @@ const jobSchema = new mongoose.Schema({
     skills: {
         type: [Object]
     },
+    roles: {
+        type: String,
+        required: true
+    },
+    requirements: {
+        type: String,
+        required: true
+    },
     createAt: {
         type: Date,
         default: Date.now
