@@ -6,6 +6,7 @@ require('dotenv').config();
 const connectDB = require('./config/db');
 
 const jobRoutes = require('./routes/jobRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 //middleware
 app.use(express.json());
@@ -87,6 +88,7 @@ connectDB();
 // })
 
 app.use('/api/jobs', jobRoutes);
+app.use('/api/auth', authRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`)
